@@ -6,7 +6,7 @@ const Offers = () => {
   
     useEffect(() => {
       const fetchOffers = async () => {
-        const resp = await fetch('http://localhost:8080/');
+        const resp = await fetch('http://localhost:8080/offers');
         const offers = await resp.json();
         setOffers(offers);
       };
@@ -15,6 +15,7 @@ const Offers = () => {
   
     return (
       <div>
+        <a href="/add">Add offer</a>
         {offers.map(offer => (
           <Offer key={offer.id} offer={offer} />
         ))}

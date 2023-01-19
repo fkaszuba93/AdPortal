@@ -1,12 +1,16 @@
-import { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Offers from './components/Offers';
+import AddOfferForm from './components/AddOfferForm';
 
 function App() {
   
   return (
-    <div className="App">
-      <Offers />
-    </div>
+    <Router>
+      <Routes>
+        <Route index element={<Offers />} />
+        <Route path="/add" element={<AddOfferForm />} />
+      </Routes>
+    </Router>
   );
 }
 
