@@ -1,8 +1,10 @@
 import { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 
 const AddOfferForm = () => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
+    const navigate = useNavigate();
 
     const addOffer = async () => {
         const offer = {title, description};
@@ -18,6 +20,7 @@ const AddOfferForm = () => {
     const submit = (event) => {
         event.preventDefault();
         addOffer();
+        navigate('/');
     };
 
     return (
