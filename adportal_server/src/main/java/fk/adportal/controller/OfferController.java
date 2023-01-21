@@ -26,4 +26,9 @@ public class OfferController {
     public Offer createOffer(@RequestBody Offer offer){
         return offerService.createOffer(offer);
     }
+
+    @DeleteMapping
+    public void deleteOffer(@RequestParam int id){
+        offerService.deleteOffer(id);
+    }
 }

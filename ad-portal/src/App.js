@@ -29,10 +29,17 @@ function App() {
     setOffers([...offers, newOffer]);
   };
 
+  const deleteOffer = async (offer) => {
+    await fetch(offersURL + `?id=${offer.id}`, {
+      method: 'DELETE'
+    });
+    setOffers(offers.filter(o => o.id !== offer.id));
+  };
+
   return (
     <Router>
       <Routes>
-        <Route index element={<Offers offers={offers} />} />
+        <Route index element={<Offers offers={offers} onDelete={deleteOffer} />} />
         <Route path="/add" element={<AddOfferForm addOffer={addOffer} />} />
       </Routes>
     </Router>
