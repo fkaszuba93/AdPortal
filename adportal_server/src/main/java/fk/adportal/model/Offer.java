@@ -1,20 +1,22 @@
 package fk.adportal.model;
 
 import jakarta.persistence.*;
-
-import java.util.Date;
+import org.hibernate.annotations.ColumnDefault;
+import java.time.LocalDateTime;
 
 @Entity
 public class Offer {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private Integer userId;
     private Integer categoryId;
     private String title;
     private String description;
-    private Date createDate;
-    private Integer views;
+    private LocalDateTime createDate = LocalDateTime.now();
+
+    @Column(nullable = false)
+    private int views = 0;
 
     public Integer getId() {
         return id;
@@ -56,19 +58,19 @@ public class Offer {
         this.description = description;
     }
 
-    public Date getCreateDate() {
+    public LocalDateTime getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Date createDate) {
+    public void setCreateDate(LocalDateTime createDate) {
         this.createDate = createDate;
     }
 
-    public Integer getViews() {
+    public int getViews() {
         return views;
     }
 
-    public void setViews(Integer views) {
+    public void setViews(int views) {
         this.views = views;
     }
 }

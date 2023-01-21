@@ -19,7 +19,7 @@ public class OfferService {
         return offerRepository.findAll();
     }
 
-    public void createOffer(Offer offer){
-        offerRepository.save(offer);
+    public Offer createOffer(Offer offer){
+        return offerRepository.save(offer);
     }
 }

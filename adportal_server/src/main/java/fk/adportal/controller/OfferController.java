@@ -23,7 +23,7 @@ public class OfferController {
     }
 
     @PostMapping
-    public void createOffer(@RequestBody Offer offer){
-        offerService.createOffer(offer);
+    public Offer createOffer(@RequestBody Offer offer){
+        return offerService.createOffer(offer);
     }
 }

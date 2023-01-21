@@ -1,25 +1,14 @@
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
-const AddOfferForm = () => {
+const AddOfferForm = ({addOffer}) => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const navigate = useNavigate();
 
-    const addOffer = async () => {
-        const offer = {title, description};
-        await fetch('http://localhost:8080/offers', {
-            method: 'POST',
-            headers: {
-              'Content-type': 'application/json',
-            },
-            body: JSON.stringify(offer)
-        });
-    };
-
     const submit = (event) => {
         event.preventDefault();
-        addOffer();
+        addOffer({title, description});
         navigate('/');
     };
 

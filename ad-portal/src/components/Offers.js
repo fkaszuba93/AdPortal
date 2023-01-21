@@ -1,17 +1,6 @@
-import { useState, useEffect } from 'react';
 import Offer from './Offer';
 
-const Offers = () => {
-    const [offers, setOffers] = useState([]);
-  
-    useEffect(() => {
-      const fetchOffers = async () => {
-        const resp = await fetch('http://localhost:8080/offers');
-        const offers = await resp.json();
-        setOffers(offers);
-      };
-      fetchOffers();
-    }, []);
+const Offers = ({offers}) => {
   
     return (
       <div>
