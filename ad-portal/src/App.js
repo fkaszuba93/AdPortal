@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Offers from './components/Offers';
-import AddOfferForm from './components/AddOfferForm';
+import EditOfferForm from './components/EditOfferForm';
 
 function App() {
   const [offers, setOffers] = useState([]);
@@ -12,13 +12,13 @@ function App() {
   }, []);
 
   const fetchOffers = async () => {
-    const resp = await fetch(offersURL);
+    const resp = await fetch(offersURL + '/get-all');
     const offers = await resp.json();
     setOffers(offers);
   };
 
   const addOffer = async (offer) => {
-    const resp = await fetch(offersURL, {
+    const resp = await fetch(offersURL + '/create', {
         method: 'POST',
         headers: {
           'Content-type': 'application/json',
@@ -27,6 +27,19 @@ function App() {
     });
     const newOffer = await resp.json();
     setOffers([...offers, newOffer]);
+  };
+
+  const updateOffer = async (offer) => {
+    await fetch(offersURL + '/update', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(offer)
+    });
+    var index = offers.findIndex(o => o.id === offer.id);
+    offers[index] = offer;
+    setOffers(offers);
   };
 
   const deleteOffer = async (offer) => {
@@ -40,7 +53,8 @@ function App() {
     <Router>
       <Routes>
         <Route index element={<Offers offers={offers} onDelete={deleteOffer} />} />
-        <Route path="/add" element={<AddOfferForm addOffer={addOffer} />} />
+        <Route path="/add" element={<EditOfferForm onSave={addOffer} />} />
+        <Route path="/edit/:id" element={<EditOfferForm onSave={updateOffer} />} />
       </Routes>
     </Router>
   );

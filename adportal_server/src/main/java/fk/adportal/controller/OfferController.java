@@ -17,14 +17,24 @@ public class OfferController {
         this.offerService = offerService;
     }
 
-    @GetMapping
+    @GetMapping(path = "/get-all")
     public Iterable<Offer> getAllOffers(){
         return offerService.getAllOffers();
     }
 
-    @PostMapping
+    @GetMapping(path = "/get-by-id")
+    public Offer getOfferById(@RequestParam int id){
+        return offerService.getOfferById(id);
+    }
+
+    @PostMapping(path = "/create")
     public Offer createOffer(@RequestBody Offer offer){
         return offerService.createOffer(offer);
+    }
+
+    @PostMapping(path = "/update")
+    public void updateOffer(@RequestBody Offer offer){
+        offerService.updateOffer(offer);
     }
 
     @DeleteMapping
