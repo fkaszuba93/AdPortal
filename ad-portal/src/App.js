@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import Header from './components/Header';
 import Offers from './components/Offers';
 import EditOfferForm from './components/EditOfferForm';
 
@@ -52,9 +53,11 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route index element={<Offers offers={offers} onDelete={deleteOffer} />} />
-        <Route path="/add" element={<EditOfferForm onSave={addOffer} />} />
-        <Route path="/edit/:id" element={<EditOfferForm onSave={updateOffer} />} />
+        <Route path="/" element={<Header />}>
+          <Route index element={<Offers offers={offers} onDelete={deleteOffer} />} />
+          <Route path="/add" element={<EditOfferForm onSave={addOffer} />} />
+          <Route path="/edit/:id" element={<EditOfferForm onSave={updateOffer} />} />
+        </Route>
       </Routes>
     </Router>
   );

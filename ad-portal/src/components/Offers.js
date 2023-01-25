@@ -3,8 +3,7 @@ import Offer from './Offer';
 const Offers = ({offers, onDelete}) => {
   
     return (
-      <div>
-        <a href="/add">Add offer</a>
+      <div style={{marginTop: "75px"}}>
         {offers.map(offer => (
           <Offer key={offer.id} offer={offer} onDelete={onDelete} />
         ))}

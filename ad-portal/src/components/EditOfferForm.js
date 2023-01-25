@@ -35,7 +35,7 @@ const EditOfferForm = ({onSave}) => {
     };
 
     return (
-        <form onSubmit={submit}>
+        <form onSubmit={submit} style={{marginTop: "75px"}}>
             <label>
                 Title:
                 <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
