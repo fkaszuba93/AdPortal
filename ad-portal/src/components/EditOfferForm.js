@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from "react-router-dom";
+import { fetchOffer } from '../util/OffersUtil';
 
 const EditOfferForm = ({onSave}) => {
     const [offer, setOffer] = useState({title: '', description: ''});
@@ -10,14 +11,8 @@ const EditOfferForm = ({onSave}) => {
     const {id} = useParams();
 
     useEffect(() => {
-        const fetchOffer = async () => {
-            const resp = await fetch(`http://localhost:8080/offers/get-by-id?id=${id}`);
-            const offerFromServer = await resp.json();
-            setOffer(offerFromServer);
-        };
-
         if (id && !fetched){
-            fetchOffer();
+            fetchOffer(id, setOffer);
             setFetched(true);
         }
         
