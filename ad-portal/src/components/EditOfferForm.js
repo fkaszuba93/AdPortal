@@ -34,17 +34,24 @@ const EditOfferForm = ({onSave}) => {
         navigate('/');
     };
 
+    const cancel = () => {
+        navigate('/');
+    };
+
     return (
-        <form onSubmit={submit} style={{marginTop: "75px"}}>
-            <label>
-                Title:
-                <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
-            </label>
-            <label>
-                Description:
-                <input type="text" value={description} onChange={(e) => setDescription(e.target.value)} />
-            </label>
-            <input type="submit" value="Save" />
+        <form onSubmit={submit} className="w-75 px-5" style={{marginTop: "75px"}}>
+            <div className="form-group">
+                <label for="title">Title:</label>
+                <input type="text" id="title" className="form-control"
+                    value={title} onChange={(e) => setTitle(e.target.value)} />
+            </div>
+            <div className="form-group">
+                <label for="description">Description:</label>
+                <textarea id="description" className="form-control" style={{height: "25rem"}}
+                    value={description} onChange={(e) => setDescription(e.target.value)} />
+            </div>
+            <input type="submit" value="Save" className="btn btn-light mr-3" />
+            <button className="btn btn-light" onClick={cancel}>Cancel</button>
         </form>
     );
 };
