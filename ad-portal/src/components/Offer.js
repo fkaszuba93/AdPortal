@@ -7,12 +7,19 @@ const Offer = ({offer, onDelete}) => {
         navigate(`/edit/${offer.id}`);
     };
     
+    const formatDate = (date) => {
+        return new Date(date).toLocaleDateString();
+    };
+
     return (
-        <div>
-            <h1>{offer.title}</h1>
-            <p>{offer.description}</p>
-            <button onClick={() => goToEditPage()}>Edit</button>
-            <button onClick={() => onDelete(offer)}>Delete</button>
+        <div className="w-75 mx-auto my-4 p-3 border rounded shadow">
+            <h2 className="mb-3">{offer.title}</h2>
+            <div className="my-2">Created: {formatDate(offer.createDate)}
+                <span className="float-right">
+                    <button className="btn btn-light mr-2" onClick={() => goToEditPage()}>Edit</button>
+                    <button className="btn btn-light" onClick={() => onDelete(offer)}>Delete</button>
+                </span>
+            </div>
         </div>
     );
 }
