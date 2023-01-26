@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Header from './components/Header';
 import Offers from './components/Offers';
 import EditOfferForm from './components/EditOfferForm';
+import OfferDetails from './components/OfferDetails';
 
 function App() {
   const [offers, setOffers] = useState([]);
@@ -57,6 +58,7 @@ function App() {
           <Route index element={<Offers offers={offers} onDelete={deleteOffer} />} />
           <Route path="/add" element={<EditOfferForm onSave={addOffer} />} />
           <Route path="/edit/:id" element={<EditOfferForm onSave={updateOffer} />} />
+          <Route path="/offer/:id" element={<OfferDetails />} />
         </Route>
       </Routes>
     </Router>

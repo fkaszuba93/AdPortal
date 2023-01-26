@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const Offer = ({offer, onDelete}) => {
     const navigate = useNavigate();
@@ -13,7 +13,9 @@ const Offer = ({offer, onDelete}) => {
 
     return (
         <div className="w-75 mx-auto my-4 p-3 border rounded shadow">
-            <h2 className="mb-3">{offer.title}</h2>
+            <Link to={`/offer/${offer.id}`} className="text-decoration-none">
+                <h2 className="mb-3">{offer.title}</h2>
+            </Link>
             <div className="my-2">Created: {formatDate(offer.createDate)}
                 <span className="float-right">
                     <button className="btn btn-light mr-2" onClick={() => goToEditPage()}>Edit</button>
