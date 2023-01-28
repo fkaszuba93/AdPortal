@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { fetchOffer } from '../util/OffersUtil';
 
 const EditOfferForm = ({onSave}) => {
@@ -9,6 +9,7 @@ const EditOfferForm = ({onSave}) => {
     const [fetched, setFetched] = useState(false);
     const navigate = useNavigate();
     const {id} = useParams();
+    const location = useLocation();
 
     useEffect(() => {
         if (id && !fetched){
@@ -16,9 +17,13 @@ const EditOfferForm = ({onSave}) => {
             setFetched(true);
         }
         
+        if (location.pathname === '/add'){
+            setOffer({title: '', description: ''});
+        }
+
         setTitle(offer.title);
         setDescription(offer.description);
-    }, [offer, id, fetched]);
+    }, [offer, id, fetched, location]);
 
     const submit = (event) => {
         event.preventDefault();
