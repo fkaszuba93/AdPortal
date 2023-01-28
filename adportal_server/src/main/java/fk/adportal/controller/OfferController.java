@@ -32,7 +32,7 @@ public class OfferController {
         return offerService.createOffer(offer);
     }
 
-    @PostMapping(path = "/update")
+    @PutMapping(path = "/update")
     public void updateOffer(@RequestBody Offer offer){
         offerService.updateOffer(offer);
     }

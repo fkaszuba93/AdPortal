@@ -26,7 +26,7 @@ export const createOffer = async (offer, callback) => {
 
 export const updateOffer = async (offer, callback) => {
     await fetch(offersURL + '/update', {
-        method: 'POST',
+        method: 'PUT',
         headers: {
         'Content-type': 'application/json',
         },
