@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import { fetchOffers, createOffer, updateOffer, deleteOffer } from './util/OffersUtil'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { fetchOffers, createOffer, updateOffer, deleteOffer } from './util/OffersUtil';
 import Header from './components/Header';
 import Offers from './components/Offers';
 import EditOfferForm from './components/EditOfferForm';
@@ -21,9 +21,9 @@ function App() {
 
   const onUpdateOffer = async (offer) => {
     updateOffer(offer, (offer) => {
-      var index = offers.findIndex(o => o.id === offer.id);
-      offers[index] = offer;
-      setOffers(offers);
+      setOffers(offers.map(o => 
+        o.id === offer.id ? offer : o
+      ));
     });
   };
 

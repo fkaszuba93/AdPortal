@@ -29,8 +29,9 @@ const EditOfferForm = ({onSave}) => {
         navigate('/');
     };
 
-    const cancel = () => {
-        navigate('/');
+    const cancel = (event) => {
+        event.preventDefault();
+        navigate(-1);
     };
 
     return (

@@ -7,7 +7,7 @@ export const fetchOffers = async (callback) => {
 };
 
 export const fetchOffer = async (id, callback) => {
-    const resp = await fetch(`http://localhost:8080/offers/get-by-id?id=${id}`);
+    const resp = await fetch(offersURL + `/get-by-id?id=${id}`);
     const offerFromServer = await resp.json();
     callback(offerFromServer);
 };
