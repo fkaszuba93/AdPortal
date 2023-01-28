@@ -39,12 +39,12 @@ const EditOfferForm = ({onSave}) => {
             <div className="form-group">
                 <label htmlFor="title">Title:</label>
                 <input type="text" id="title" className="form-control"
-                    value={title} onChange={(e) => setTitle(e.target.value)} />
+                    value={title} required onChange={(e) => setTitle(e.target.value)} />
             </div>
             <div className="form-group">
                 <label htmlFor="description">Description:</label>
                 <textarea id="description" className="form-control" style={{height: "25rem"}}
-                    value={description} onChange={(e) => setDescription(e.target.value)} />
+                    value={description} required onChange={(e) => setDescription(e.target.value)} />
             </div>
             <input type="submit" value="Save" className="btn btn-light mr-3" />
             <button className="btn btn-light" onClick={cancel}>Cancel</button>
