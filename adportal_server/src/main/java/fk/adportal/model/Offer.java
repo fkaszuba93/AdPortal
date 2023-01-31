@@ -1,7 +1,6 @@
 package fk.adportal.model;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.ColumnDefault;
 import java.time.LocalDateTime;
 
 @Entity
@@ -10,13 +9,16 @@ public class Offer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private Integer userId;
-    private Integer categoryId;
     private String title;
     private String description;
     private LocalDateTime createDate = LocalDateTime.now();
 
     @Column(nullable = false)
     private int views = 0;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "category_id")
+    private Category category;
 
     public Integer getId() {
         return id;
@@ -32,14 +34,6 @@ public class Offer {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
-    }
-
-    public Integer getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(Integer categoryId) {
-        this.categoryId = categoryId;
     }
 
     public String getTitle() {
@@ -72,5 +66,13 @@ public class Offer {
 
     public void setViews(int views) {
         this.views = views;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }
