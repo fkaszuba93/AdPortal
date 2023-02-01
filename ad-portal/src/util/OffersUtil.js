@@ -35,6 +35,12 @@ export const updateOffer = async (offer, callback) => {
     callback(offer);
 };
 
+export const updateViews = async (offerId) => {
+    fetch(offersURL + `/update-views?id=${offerId}`, {
+        method: 'PUT'
+    });
+};
+
 export const deleteOffer = async (offer, callback) => {
     await fetch(offersURL + `?id=${offer.id}`, {
         method: 'DELETE'

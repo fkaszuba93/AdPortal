@@ -36,6 +36,15 @@ public class OfferService {
         }
     }
 
+    public void updateViews(int offerId){
+        Optional<Offer> offerInDb = offerRepository.findById(offerId);
+        if (offerInDb.isPresent()){
+            Offer offer = offerInDb.get();
+            offer.setViews(offer.getViews() + 1);
+            offerRepository.save(offer);
+        }
+    }
+
     public void deleteOffer(int id){
         offerRepository.deleteById(id);
     }

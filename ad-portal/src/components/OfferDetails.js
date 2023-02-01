@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
-import { fetchOffer, formatDate } from '../util/OffersUtil';
+import { fetchOffer, formatDate, updateViews } from '../util/OffersUtil';
 
 const OfferDetails = () => {
     const [offer, setOffer] = useState({});
@@ -14,6 +14,10 @@ const OfferDetails = () => {
             setCategory(offer.category.name);
         }
     }, [id, offer]);
+
+    useEffect(() => {
+        updateViews(id);
+    }, [id]);
 
     return (
         <div className="mx-5" style={{marginTop: "75px"}}>

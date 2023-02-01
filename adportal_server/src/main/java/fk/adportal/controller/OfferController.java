@@ -37,6 +37,11 @@ public class OfferController {
         offerService.updateOffer(offer);
     }
 
+    @PutMapping(path = "/update-views")
+    public void updateViews(@RequestParam int id){
+        offerService.updateViews(id);
+    }
+
     @DeleteMapping
     public void deleteOffer(@RequestParam int id){
         offerService.deleteOffer(id);
