@@ -8,23 +8,25 @@ const OfferDetails = () => {
     const {id} = useParams();
 
     useEffect(() => {
-        fetchOffer(id, setOffer);
-
         if (offer.category){
             setCategory(offer.category.name);
         }
-    }, [id, offer]);
+    }, [offer]);
 
     useEffect(() => {
+        fetchOffer(id, setOffer);
         updateViews(id);
     }, [id]);
 
     return (
         <div className="mx-5" style={{marginTop: "75px"}}>
+            {offer.error ? <h2>{offer.error}</h2>
+            : <>
             <h1>{offer.title}</h1>
             <div className="small">Category: {category}</div>
             <div className="small">Created: {formatDate(offer.createDate)}</div>
             <p className="lead py-4">{offer.description}</p>
+            </>}
         </div>
     );
 };

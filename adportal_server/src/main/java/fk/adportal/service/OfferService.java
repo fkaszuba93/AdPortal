@@ -3,7 +3,9 @@ package fk.adportal.service;
 import fk.adportal.model.Offer;
 import fk.adportal.repository.OfferRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import java.util.Optional;
 
 @Service
@@ -22,6 +24,9 @@ public class OfferService {
 
     public Offer getOfferById(int id){
         Optional<Offer> offerInDb = offerRepository.findById(id);
+        if (offerInDb.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
         return offerInDb.get();
     }
 
