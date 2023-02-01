@@ -13,7 +13,8 @@ const Offer = ({offer, onDelete}) => {
             <Link to={`/offer/${offer.id}`} className="text-decoration-none">
                 <h2 className="mb-3">{offer.title}</h2>
             </Link>
-            <div className="my-2">Created: {formatDate(offer.createDate)}
+            <div className="my-2 small">Created: {formatDate(offer.createDate)}
+                <span className="ml-5">Views: {offer.views}</span>
                 <span className="float-right">
                     <button className="btn btn-light mr-2" onClick={() => goToEditPage()}>Edit</button>
                     <button className="btn btn-light" onClick={() => onDelete(offer)}>Delete</button>
