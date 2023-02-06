@@ -8,7 +8,6 @@ public class Offer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Integer userId;
     private String title;
     private String description;
     private LocalDateTime createDate = LocalDateTime.now();
@@ -20,20 +19,16 @@ public class Offer {
     @JoinColumn(name = "category_id")
     private Category category;
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "user_id")
+    private User user;
+
     public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
     }
 
     public String getTitle() {
@@ -74,5 +69,13 @@ public class Offer {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
