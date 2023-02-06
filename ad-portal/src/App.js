@@ -5,6 +5,8 @@ import Header from './components/Header';
 import Offers from './components/Offers';
 import EditOfferForm from './components/EditOfferForm';
 import OfferDetails from './components/OfferDetails';
+import LogInForm from './components/LogInForm';
+import SignUpForm from './components/SignUpForm';
 
 function App() {
   const [offers, setOffers] = useState([]);
@@ -41,6 +43,8 @@ function App() {
           <Route path="/add" element={<EditOfferForm onSave={onCreateOffer} />} />
           <Route path="/edit/:id" element={<EditOfferForm onSave={onUpdateOffer} />} />
           <Route path="/offer/:id" element={<OfferDetails />} />
+          <Route path="/log-in" element={<LogInForm />} />
+          <Route path="/sign-up" element={<SignUpForm />} />
         </Route>
       </Routes>
     </Router>

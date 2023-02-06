@@ -11,11 +11,19 @@ const Header = () => {
         <>
             <nav className="navbar navbar-expand-sm navbar-light bg-light fixed-top">
                 <Link to="/" className="navbar-brand">AdPortal</Link>
-                <ul className="navbar-nav">
+                <ul className="navbar-nav mr-auto">
                     {!isEditPage() && 
                     <li className="nav-item">
                         <Link to="/add" className="nav-link">Add offer</Link>
                     </li>}
+                </ul>
+                <ul className="navbar-nav mr-5">
+                    <li className="nav-item">
+                        <Link to="/log-in" className="nav-link">Log in</Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link to="/sign-up" className="nav-link">Sign up</Link>
+                    </li>
                 </ul>
             </nav>
             
