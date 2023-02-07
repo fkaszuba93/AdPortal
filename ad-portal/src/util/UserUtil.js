@@ -16,5 +16,22 @@ const sendRequest = async (url, userData, callback) => {
         },
         body: JSON.stringify(userData)
     });
-    callback(await resp.json());
+    const token = await resp.json();
+    sessionStorage.setItem("userToken", JSON.stringify(token));
+    callback(token);
+};
+
+export const isUserLoggedIn = () => {
+    return sessionStorage.getItem("userToken") !== null;
+};
+
+export const getUserToken = () => {
+    if (!isUserLoggedIn()){
+        return null;
+    }
+    return JSON.parse(sessionStorage["userToken"]);
+};
+
+export const logOut = () => {
+    sessionStorage.removeItem("userToken");
 };

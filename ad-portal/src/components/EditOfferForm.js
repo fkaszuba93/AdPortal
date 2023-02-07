@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchOffer } from '../util/OffersUtil';
 import {fetchCategories} from '../util/CategoriesUtil';
+import { isUserLoggedIn } from '../util/UserUtil';
 
 const EditOfferForm = ({onSave}) => {
     const [offer, setOffer] = useState({title: '', description: ''});
@@ -14,6 +15,10 @@ const EditOfferForm = ({onSave}) => {
     const {id} = useParams();
 
     useEffect(() => {
+        if (!isUserLoggedIn()){
+            navigate('/log-in');
+        }
+        
         if (id && !fetched){
             fetchOffer(id, setOffer);
             setFetched(true);
@@ -27,7 +32,7 @@ const EditOfferForm = ({onSave}) => {
         if (offer.category){
             setCategoryId(offer.category.id);
         }
-    }, [offer, id, fetched]);
+    }, [offer, id, fetched, navigate]);
 
     const submit = (event) => {
         event.preventDefault();

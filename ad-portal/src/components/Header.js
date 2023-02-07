@@ -1,4 +1,5 @@
 import { Link, Outlet, useLocation } from "react-router-dom";
+import { isUserLoggedIn, logOut } from '../util/UserUtil';
 
 const Header = () => {
     const location = useLocation();
@@ -18,12 +19,17 @@ const Header = () => {
                     </li>}
                 </ul>
                 <ul className="navbar-nav mr-5">
+                    {isUserLoggedIn() ? <>
+                    <li className="nav-item">
+                        <Link className="nav-link" onClick={logOut}>Log out</Link>
+                    </li></>
+                    : <>
                     <li className="nav-item">
                         <Link to="/log-in" className="nav-link">Log in</Link>
                     </li>
                     <li className="nav-item">
                         <Link to="/sign-up" className="nav-link">Sign up</Link>
-                    </li>
+                    </li></>}
                 </ul>
             </nav>
             
