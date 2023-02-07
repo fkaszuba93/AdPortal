@@ -8,6 +8,8 @@ const SignUpForm = () => {
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [isError, setIsError] = useState(false);
+    const [errorMsg, setErrorMsg] = useState('');
     const navigate = useNavigate();
 
     const submit = (event) => {
@@ -20,8 +22,15 @@ const SignUpForm = () => {
             email,
             password
         };
-        registerUser(userData);
-        navigate('/');
+        registerUser(userData, (resp) => {
+            if (resp.error){
+                setIsError(true);
+                setErrorMsg(resp.message);
+            } else {
+                setIsError(false);
+                navigate('/');
+            }
+        });
     };
     
     return (
@@ -52,6 +61,7 @@ const SignUpForm = () => {
                     <input type="password" id="password" className="form-control" required
                         value={password} onChange={(e) => setPassword(e.target.value)} />
                 </div>
+                {isError && <div className="text-danger mb-2">{errorMsg}</div>}
                 <input type="submit" value="Sign up" className="btn btn-primary btn-lg mt-4" />
             </form>
         </div>

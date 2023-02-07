@@ -5,6 +5,8 @@ import { loginUser } from '../util/UserUtil';
 const LogInForm = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [isError, setIsError] = useState(false);
+    const [errorMsg, setErrorMsg] = useState('');
     const navigate = useNavigate();
 
     const submit = (event) => {
@@ -14,8 +16,15 @@ const LogInForm = () => {
             username,
             password
         };
-        loginUser(userData);
-        navigate('/');
+        loginUser(userData, (resp) => {
+            if (resp.error && resp.status === 401){
+                setIsError(true);
+                setErrorMsg(resp.message);
+            } else {
+                setIsError(false);
+                navigate('/');
+            }
+        });
     };
 
     return (
@@ -31,6 +40,7 @@ const LogInForm = () => {
                     <input type="password" id="password" className="form-control" required
                         value={password} onChange={(e) => setPassword(e.target.value)} />
                 </div>
+                {isError && <div className="text-danger mb-2">{errorMsg}</div>}
                 <input type="submit" value="Log in" className="btn btn-primary mt-4" />
             </form>
         </div>
