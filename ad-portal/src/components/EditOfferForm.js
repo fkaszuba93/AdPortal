@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchOffer } from '../util/OffersUtil';
 import {fetchCategories} from '../util/CategoriesUtil';
-import { isUserLoggedIn } from '../util/UserUtil';
+import { isUserLoggedIn, getUserToken } from '../util/UserUtil';
 
 const EditOfferForm = ({onSave}) => {
     const [offer, setOffer] = useState({title: '', description: ''});
@@ -39,7 +39,8 @@ const EditOfferForm = ({onSave}) => {
 
         offer.title = title;
         offer.description = description;
-        offer.category = {id: categoryId};
+        offer.categoryId = categoryId;
+        offer.userId = getUserToken().userId;
         onSave(offer);
         navigate('/');
     };

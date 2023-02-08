@@ -117,4 +117,8 @@ public class User implements UserDetails {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
+    public LocalDateTime getRegisterDate() {
+        return registerDate;
+    }
 }
