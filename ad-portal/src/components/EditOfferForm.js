@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchOffer } from '../util/OffersUtil';
 import {fetchCategories} from '../util/CategoriesUtil';
-import { isUserLoggedIn, getUserToken } from '../util/UserUtil';
+import { isUserLoggedIn, getUserToken, isOwner } from '../util/UserUtil';
 
 const EditOfferForm = ({onSave}) => {
     const [offer, setOffer] = useState({title: '', description: ''});
@@ -40,7 +40,7 @@ const EditOfferForm = ({onSave}) => {
         offer.title = title;
         offer.description = description;
         offer.categoryId = categoryId;
-        offer.userId = getUserToken().userId;
+        offer.userToken = getUserToken();
         onSave(offer);
         navigate('/');
     };
@@ -58,6 +58,7 @@ const EditOfferForm = ({onSave}) => {
 
     return (
         <div className="w-75" style={{margin: "5rem"}}>
+            {isOwner(offer) || !id ? <>
             <button className="btn btn-light mb-3" onClick={clear}>Clear</button>
             <form onSubmit={submit}>
                 <div className="form-group">
@@ -83,7 +84,11 @@ const EditOfferForm = ({onSave}) => {
                 </div>
                 <input type="submit" value="Save" className="btn btn-light mr-3" />
                 <button className="btn btn-light" onClick={cancel}>Cancel</button>
-            </form>
+            </form></>
+            : <>
+            <h3>Error</h3>
+            <p>You are not authorized to edit this offer or it was not found.</p>
+            </>}
         </div>
     );
 };

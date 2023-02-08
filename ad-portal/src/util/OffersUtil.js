@@ -1,3 +1,5 @@
+import { getUserToken } from './UserUtil';
+
 export const offersURL = 'http://localhost:8080/offers';
 
 export const fetchOffers = async (callback) => {
@@ -43,7 +45,11 @@ export const updateViews = async (offerId) => {
 
 export const deleteOffer = async (offer, callback) => {
     await fetch(offersURL + `?id=${offer.id}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: {
+            'Content-type': 'application/json',
+        },
+        body: JSON.stringify(getUserToken())
     });
     callback(offer);
 };

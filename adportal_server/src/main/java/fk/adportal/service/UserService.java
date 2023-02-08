@@ -1,11 +1,11 @@
 package fk.adportal.service;
 
 import fk.adportal.model.User;
+import fk.adportal.repository.TokenRepository;
 import fk.adportal.repository.UserRepository;
 import fk.adportal.security.Token;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,12 +21,14 @@ import java.util.Optional;
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
+    private final TokenRepository tokenRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final EmailValidator emailValidator;
 
     @Autowired
-    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, EmailValidator emailValidator) {
+    public UserService(UserRepository userRepository, TokenRepository tokenRepository, BCryptPasswordEncoder passwordEncoder, EmailValidator emailValidator) {
         this.userRepository = userRepository;
+        this.tokenRepository = tokenRepository;
         this.passwordEncoder = passwordEncoder;
         this.emailValidator = emailValidator;
     }
@@ -53,7 +55,9 @@ public class UserService implements UserDetailsService {
 
         User newUser = userRepository.save(user);
 
-        return new Token(newUser.getId());
+        Token token = new Token(newUser.getId());
+        tokenRepository.save(token);
+        return token;
     }
 
     public Token loginUser(Map<String, String> request){
@@ -73,7 +77,9 @@ public class UserService implements UserDetailsService {
             throw new AuthenticationException("Incorrect password"){};
         }
 
-        return new Token(user.getId());
+        Token token = new Token(user.getId());
+        tokenRepository.save(token);
+        return token;
     }
 
     @Override

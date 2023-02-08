@@ -35,3 +35,8 @@ export const getUserToken = () => {
 export const logOut = () => {
     sessionStorage.removeItem("userToken");
 };
+
+export const isOwner = (offer) => {
+    const userToken = getUserToken();
+    return userToken?.userId === offer?.user?.id;
+};

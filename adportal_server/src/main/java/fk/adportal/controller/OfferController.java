@@ -3,6 +3,7 @@ package fk.adportal.controller;
 import fk.adportal.json.OfferRequest;
 import fk.adportal.json.OfferResponse;
 import fk.adportal.model.Offer;
+import fk.adportal.security.Token;
 import fk.adportal.service.OfferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -47,7 +48,7 @@ public class OfferController {
     }
 
     @DeleteMapping
-    public void deleteOffer(@RequestParam int id){
-        offerService.deleteOffer(id);
+    public void deleteOffer(@RequestParam int id, @RequestBody Token userToken){
+        offerService.deleteOffer(id, userToken);
     }
 }
