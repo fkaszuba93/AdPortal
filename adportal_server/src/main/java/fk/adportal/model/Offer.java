@@ -9,6 +9,8 @@ public class Offer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String title;
+
+    @Column(columnDefinition = "TEXT")
     private String description;
     private LocalDateTime createDate = LocalDateTime.now();
 

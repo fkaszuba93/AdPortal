@@ -39,7 +39,7 @@ const EditOfferForm = ({onSave}) => {
 
         offer.title = title;
         offer.description = description;
-        offer.categoryId = categoryId;
+        offer.categoryId = parseInt(categoryId);
         offer.userToken = getUserToken();
         onSave(offer);
         navigate('/');
