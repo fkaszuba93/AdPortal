@@ -4,22 +4,22 @@ import { isUserLoggedIn, logOut } from '../util/UserUtil';
 const Header = () => {
     const location = useLocation();
 
-    const isEditPage = () => {
-        return location.pathname.startsWith('/edit');
+    const hideLinks = () => {
+        return location.pathname === '/add'
+            || location.pathname.startsWith('/edit');
     };
     
     return (
         <>
             <nav className="navbar navbar-expand-sm navbar-light bg-light fixed-top">
                 <Link to="/" className="navbar-brand">AdPortal</Link>
-                <ul className="navbar-nav mr-auto">
-                    {!isEditPage() && 
-                    <li className="nav-item">
-                        <Link to="/add" className="nav-link">Add offer</Link>
-                    </li>}
-                </ul>
+                <div className="mr-auto"></div>
                 <ul className="navbar-nav mr-5">
-                    {isUserLoggedIn() ? <>
+                    {!hideLinks() && 
+                    <li className="nav-item mr-4">
+                        <Link to="/add" className="btn btn-success">Add offer</Link>
+                    </li>}
+                    {isUserLoggedIn() ? !hideLinks() && <>
                     <li className="nav-item">
                         <Link className="nav-link" onClick={logOut}>Log out</Link>
                     </li></>

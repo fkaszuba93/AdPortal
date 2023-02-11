@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchOffer } from '../util/OffersUtil';
-import {fetchCategories} from '../util/CategoriesUtil';
+import { fetchCategories } from '../util/CategoriesUtil';
 import { isUserLoggedIn, getUserToken, isOwner } from '../util/UserUtil';
 
 const EditOfferForm = ({onSave}) => {
@@ -10,7 +10,7 @@ const EditOfferForm = ({onSave}) => {
     const [description, setDescription] = useState('');
     const [categoryId, setCategoryId] = useState('');
     const [categories, setCategories] = useState([]);
-    const [fetched, setFetched] = useState(false);
+    const [isError, setIsError] = useState(false);
     const navigate = useNavigate();
     const {id} = useParams();
 
@@ -18,21 +18,31 @@ const EditOfferForm = ({onSave}) => {
         if (!isUserLoggedIn()){
             navigate('/log-in');
         }
-        
-        if (id && !fetched){
+    }, [navigate]);
+
+    useEffect(() => {
+        if (id){
             fetchOffer(id, setOffer);
-            setFetched(true);
         }
-        
-        setTitle(offer.title);
-        setDescription(offer.description);
-
         fetchCategories(setCategories);
+    }, [id]);
 
-        if (offer.category){
-            setCategoryId(offer.category.id);
+    useEffect(() => {
+        if (offer.error){
+            setIsError(true);
+            return;
         }
-    }, [offer, id, fetched, navigate]);
+
+        const isUnauthorized = offer.user && !isOwner(offer);
+        setIsError(isUnauthorized);
+        if (!isUnauthorized){
+            setTitle(offer.title);
+            setDescription(offer.description);
+            if (offer.category){
+                setCategoryId(offer.category.id);
+            }
+        }
+    }, [offer]);
 
     const submit = (event) => {
         event.preventDefault();
@@ -58,7 +68,7 @@ const EditOfferForm = ({onSave}) => {
 
     return (
         <div className="w-75" style={{margin: "5rem"}}>
-            {isOwner(offer) || !id ? <>
+            {!(id && isError) ? <>
             <button className="btn btn-light mb-3" onClick={clear}>Clear</button>
             <form onSubmit={submit}>
                 <div className="form-group">
@@ -82,7 +92,7 @@ const EditOfferForm = ({onSave}) => {
                     <textarea id="description" className="form-control" style={{height: "25rem"}}
                         value={description} required onChange={(e) => setDescription(e.target.value)} />
                 </div>
-                <input type="submit" value="Save" className="btn btn-light mr-3" />
+                <input type="submit" value="Save" className="btn btn-primary mr-3" />
                 <button className="btn btn-light" onClick={cancel}>Cancel</button>
             </form></>
             : <>

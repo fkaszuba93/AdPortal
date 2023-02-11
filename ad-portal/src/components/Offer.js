@@ -18,8 +18,8 @@ const Offer = ({offer, onDelete}) => {
                 {isOwner(offer) && <>
                 <span className="ml-5">Views: {offer.views}</span>
                 <span className="float-right">
-                    <button className="btn btn-light mr-2" onClick={() => goToEditPage()}>Edit</button>
-                    <button className="btn btn-light" onClick={() => onDelete(offer)}>Delete</button>
+                    <button className="btn btn-primary mr-2" onClick={() => goToEditPage()}>Edit</button>
+                    <button className="btn btn-danger" onClick={() => onDelete(offer)}>Delete</button>
                 </span></>}
             </div>
         </div>

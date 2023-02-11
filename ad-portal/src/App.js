@@ -17,15 +17,19 @@ function App() {
 
   const onCreateOffer = (offer) => {
     createOffer(offer, (newOffer) => {
-      setOffers([...offers, newOffer]);
+      if (!newOffer.error){
+        setOffers([...offers, newOffer]);
+      }
     });
   };
 
   const onUpdateOffer = async (offer) => {
-    updateOffer(offer, (offer) => {
-      setOffers(offers.map(o => 
-        o.id === offer.id ? offer : o
-      ));
+    updateOffer(offer, (updatedOffer) => {
+      if (!updatedOffer.error){
+        setOffers(offers.map(o => 
+          o.id === updatedOffer.id ? updatedOffer : o
+        ));
+      }
     });
   };
 
