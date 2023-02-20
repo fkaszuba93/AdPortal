@@ -82,6 +82,12 @@ public class UserService implements UserDetailsService {
         return token;
     }
 
+    public User authUser(Token userToken){
+        return userRepository.findById(userToken.getUserId()).orElseThrow(() ->
+                new ResponseStatusException(HttpStatus.UNAUTHORIZED)
+        );
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return null;

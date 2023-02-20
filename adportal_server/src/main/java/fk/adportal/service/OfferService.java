@@ -7,13 +7,14 @@ import fk.adportal.model.Offer;
 import fk.adportal.model.User;
 import fk.adportal.repository.OfferRepository;
 import fk.adportal.repository.TokenRepository;
-import fk.adportal.repository.UserRepository;
 import fk.adportal.security.Token;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -24,14 +25,14 @@ public class OfferService {
 
     private final OfferRepository offerRepository;
     private final CategoryService categoryService;
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final TokenRepository tokenRepository;
 
     @Autowired
-    public OfferService(OfferRepository offerRepository, CategoryService categoryService, UserRepository userRepository, TokenRepository tokenRepository) {
+    public OfferService(OfferRepository offerRepository, CategoryService categoryService, UserService userService, TokenRepository tokenRepository) {
         this.offerRepository = offerRepository;
         this.categoryService = categoryService;
-        this.userRepository = userRepository;
+        this.userService = userService;
         this.tokenRepository = tokenRepository;
     }
 
@@ -49,7 +50,7 @@ public class OfferService {
     }
 
     public Offer createOffer(OfferRequest request){
-        User user = authUser(getUserToken(request));
+        User user = userService.authUser(validateToken(request));
 
         Offer offer = request.getOffer();
         offer.setCategory(getCategory(request));
@@ -59,7 +60,7 @@ public class OfferService {
     }
 
     public void updateOffer(OfferRequest request){
-        User user = authUser(getUserToken(request));
+        User user = userService.authUser(validateToken(request));
 
         int id = (int) request.get("id");
         Offer offer = offerRepository.findById(id).orElseThrow();
@@ -83,7 +84,7 @@ public class OfferService {
     }
 
     public void deleteOffer(int id, Token userToken){
-        User user = authUser(userToken);
+        User user = userService.authUser(userToken);
         Offer offer = offerRepository.findById(id).orElseThrow();
         if (!Objects.equals(offer.getUser().getId(), user.getId())){
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
@@ -96,16 +97,25 @@ public class OfferService {
         return categoryService.getCategoryById(categoryId);
     }
 
-    private Token getUserToken(OfferRequest request){
-        String uuid = (String)((Map<?, ?>) request.get("userToken")).get("uuid");
-        return tokenRepository.findById(uuid).orElseThrow(() ->
+    private Token validateToken(OfferRequest request){
+        Map<?, ?> requestToken = (Map<?, ?>) request.get("userToken");
+        String uuid = (String) requestToken.get("uuid");
+        int userId = (Integer) requestToken.get("userId");
+        LocalDateTime created = LocalDateTime.parse((String) requestToken.get("created"));
+        LocalDateTime expires = LocalDateTime.parse((String) requestToken.get("expires"));
+
+        Token token = tokenRepository.findById(uuid).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.UNAUTHORIZED)
         );
+
+        if (token.getUserId() != userId || !isDateTimeEqual(token.getCreated(), created)
+            || !isDateTimeEqual(token.getExpires(), expires) || LocalDateTime.now().isAfter(token.getExpires())){
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+        return token;
     }
 
-    private User authUser(Token userToken){
-        return userRepository.findById(userToken.getUserId()).orElseThrow(() ->
-                new ResponseStatusException(HttpStatus.UNAUTHORIZED)
-        );
+    private boolean isDateTimeEqual(LocalDateTime a, LocalDateTime b){
+        return a.truncatedTo(ChronoUnit.MICROS).isEqual(b.truncatedTo(ChronoUnit.MICROS));
     }
 }
