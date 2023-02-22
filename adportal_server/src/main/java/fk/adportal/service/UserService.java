@@ -82,7 +82,7 @@ public class UserService implements UserDetailsService {
         return token;
     }
 
-    public User authUser(Token userToken){
+    public User getUserByToken(Token userToken){
         return userRepository.findById(userToken.getUserId()).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.UNAUTHORIZED)
         );
